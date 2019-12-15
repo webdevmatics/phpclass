@@ -1,3 +1,27 @@
+<?php 
+
+// echo "<pre>";
+//     print_r($_POST);
+
+// echo "<pre>";
+
+$connection = mysqli_connect('localhost','root','','facebook');
+
+if(isset($_POST['register_it'])) {
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+}
+
+
+   
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,15 +52,15 @@
     <div>
         <h5>Sigup here</h5>
 
-        <form action="">
-            <input type="text" placeholder="Enter Your name" name="name">
+        <form action="index.php" method="POST">
+            <input type="text" placeholder="Enter Your name" name="name" required>
             <br>
-            <input type="text" placeholder="Enter email" name="email">
+            <input type="email" placeholder="Enter email" name="email" required>
             <br>
-            <input type="password" placeholder="Enter Password" name="password">
+            <input type="password" placeholder="Enter Password" name="password" required>
             <br>
 
-            <input type="submit" value="Register">
+            <input type="submit" value="Register" name="register_it">
 
 
         </form>
