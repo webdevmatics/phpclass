@@ -1,19 +1,33 @@
-<?php 
-
+<?php
 // echo "<pre>";
-//     print_r($_POST);
+// var_dump($connection);
+// echo "</pre>";
 
-// echo "<pre>";
 
 $connection = mysqli_connect('localhost','root','','facebook');
 
-if(isset($_POST['register_it'])) {
+if(mysqli_connect_errno()) {
+    echo "there is some error while connecting to db";
+    exit();
+}
 
+
+$name=$email=$password='';
+
+if(isset($_POST['register_it'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $insertQuery = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+    $result = mysqli_query($connection, $insertQuery);
+
 }
+
+
+
+
+
 
 
    
