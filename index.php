@@ -1,36 +1,36 @@
 <?php
+session_start();
 // echo "<pre>";
 // var_dump($connection);
 // echo "</pre>";
 
 
-$connection = mysqli_connect('localhost','root','','facebook');
+$connection = mysqli_connect('localhost', 'root', '', 'facebook');
 
-if(mysqli_connect_errno()) {
+if (mysqli_connect_errno()) {
     echo "there is some error while connecting to db";
     exit();
 }
 
 
-$name=$email=$password='';
+$name = $email = $password = '';
 
-if(isset($_POST['register_it'])) {
+if (isset($_POST['register_it'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
     $insertQuery = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
     $result = mysqli_query($connection, $insertQuery);
 
+    $_SESSION['auth_user'] = $name;
+
+    header("Location: index.php?message=register_successfully");
+
+    exit();
 }
-
-
-
-
-
-
-
-   
 
 
 
@@ -62,6 +62,21 @@ if(isset($_POST['register_it'])) {
 <body>
 
     <h1>Welcome to FaceBook</h1>
+    <?php if(isset($_SESSION['auth_user'])):?>
+         <h5 style="text-align:center"> Logged in as : <?php echo $_SESSION['auth_user'] ?>
+         <a href="/facebook/logout.php">Logout</a>
+        <?php endif; ?>
+    
+
+    </h5>
+
+    <p>
+        <?php
+             if (isset($_GET['message'])) {
+                                                        echo $_GET['message'];
+                                                    }
+        ?>
+    </p>
 
     <div>
         <h5>Sigup here</h5>
