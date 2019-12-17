@@ -14,11 +14,17 @@ if (mysqli_connect_errno()) {
 
 
 $name = $email = $password = '';
-
+$errors = [];
+//checking if register button is clicked
 if (isset($_POST['register_it'])) {
     $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $_SESSION['name'] = $name;
+    // $email = $_POST['email'];
+    $password = $_POST['password']; //secret
+
+    if(strlen($password) < 5 ) {
+        array_push($errors, "password should be more than 6");
+    }
 
     $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -31,7 +37,6 @@ if (isset($_POST['register_it'])) {
 
     exit();
 }
-
 
 
 ?>
@@ -62,39 +67,43 @@ if (isset($_POST['register_it'])) {
 <body>
 
     <h1>Welcome to FaceBook</h1>
-    <?php if(isset($_SESSION['auth_user'])):?>
-         <h5 style="text-align:center"> Logged in as : <?php echo $_SESSION['auth_user'] ?>
-         <a href="/facebook/logout.php">Logout</a>
+    <?php if (isset($_SESSION['auth_user'])) : ?>
+        <h5 style="text-align:center"> Logged in as : <?php echo $_SESSION['auth_user'] ?>
+            <a href="/facebook/logout.php">Logout</a>
         <?php endif; ?>
-    
-
-    </h5>
-
-    <p>
-        <?php
-             if (isset($_GET['message'])) {
-                                                        echo $_GET['message'];
-                                                    }
-        ?>
-    </p>
-
-    <div>
-        <h5>Sigup here</h5>
-
-        <form action="index.php" method="POST">
-            <input type="text" placeholder="Enter Your name" name="name" required>
-            <br>
-            <input type="email" placeholder="Enter email" name="email" required>
-            <br>
-            <input type="password" placeholder="Enter Password" name="password" required>
-            <br>
-
-            <input type="submit" value="Register" name="register_it">
 
 
-        </form>
+        </h5>
 
-    </div>
+        <p>
+            <?php
+                if (isset($_GET['message'])) {
+                    echo $_GET['message'];
+                }
+            ?>
+        </p>
+
+        <div>
+            <h5>Sigup here</h5>
+
+            <form action="index.php" method="POST">
+                <input type="text" placeholder="Enter Your name"
+                 name="name" 
+                 required 
+                value="<?php if(isset($_SESSION['name'])) {  echo $_SESSION['name'];  }?>"
+                >
+                <br>
+                <input type="email" placeholder="Enter email" name="email" required>
+                <br>
+                <input type="password" placeholder="Enter Password" name="password" required>
+                <br>
+
+                <input type="submit" value="Register" name="register_it">
+
+
+            </form>
+
+        </div>
 </body>
 
 </html>
