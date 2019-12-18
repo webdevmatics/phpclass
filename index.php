@@ -1,63 +1,56 @@
 <?php
-session_start();
-// echo "<pre>";
-// var_dump($connection);
-// echo "</pre>";
-const HOST = 'localhost';
-const USER = 'root';
-const DB_PASSWORD = '';
-const DATABASE_NAME = 'facebook';
+session_start(); //starting seesion
 
+$name = $email = $password = ''; //initializing variables
 
-// exit;
-// echo "<pre>";
-// var_dump($multi['mydata']['love']);
-// echo "</pre>";
-// exit;
-// define(HOST, 'localhost'); //another way of defininig constant
-
-$connection = mysqli_connect(HOST, USER, DB_PASSWORD, DATABASE_NAME);
-
-if (mysqli_connect_errno()) {
-    echo "there is some error while connecting to db";
-    exit();
-}
-
-
-$name = $email = $password = '';
-$errors = [];
 //checking if register button is clicked
+
 if (isset($_POST['register_it'])) {
 
-    $name = $_POST['name'];
-    $_SESSION['name'] = $name;
+    $name = $_POST['name'];  // getting name of user from name input field and assigning it to variable
+    $_SESSION['name'] = $name; // saving name to session for displaying in input field in case user entered wrong data
 
-    $email = $_POST['email'];
-    $_SESSION['email'] = $email;
+    $email = $_POST['email'];    // getting email of user from email input field and assigning it to variable
+    $_SESSION['email'] = $email; // saving email to session for displaying in input field in case user entered wrong data
 
-    $password = $_POST['password']; //secret
+    $password = $_POST['password']; // getting password of user from password input field and assigning it to variable
+    $password = password_hash($password, PASSWORD_DEFAULT); //encrpting password to make is secure
 
 
+    //checking if password in less than 5 character
     if (strlen($password) < 5) {
+
+        // if user entered password less than 5 character taking user back to same page and displaying password to short message
+
         header("Location: index.php?message=Password too short");
-        exit();
-        // array_push($errors, "password should be more than 6");
+        exit(); //and existing from page , code below exit will not be executed
     }
 
+    // checking if email entered by user is valid
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        // array_push($errors, "please enter valid email");
-        header("Location: index.php?message=invalide email");
+
+        header("Location: index.php?message=invalid email");
         exit();
     }
 
-    $password = password_hash($password, PASSWORD_DEFAULT);
 
-    $insertQuery = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
-    $result = mysqli_query($connection, $insertQuery);
 
-    $_SESSION['auth_user'] = $name;
+    $connection = mysqli_connect('localhost', 'root', '', 'facebook'); //making connection with database
 
-    header("Location: index.php?message=register_successfully");
+    //checking if connection is not successful
+    if (mysqli_connect_errno()) {
+        echo "there is some error while connecting to db";
+        exit(); //if not successful exit  by displaying error
+    }
+
+    $insertQuery = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";  // SQL query to insert name email and password into database
+
+    $result = mysqli_query($connection, $insertQuery); // executing query , this will save user data to database
+
+    $_SESSION['auth_user'] = $name;  //saving name of user in session so that we can display it in page 
+
+
+    header("Location: index.php?message=register_successfully"); // after register success taking user to main page and displaying success message
 
     exit();
 }
@@ -91,6 +84,9 @@ if (isset($_POST['register_it'])) {
 <body>
 
     <h1>Welcome to FaceBook</h1>
+
+    <!-- checking if session is set and displaying logged in users name  -->
+
     <?php if (isset($_SESSION['auth_user'])) : ?>
         <h5 style="text-align:center"> Logged in as : <?php echo $_SESSION['auth_user'] ?>
             <a href="/facebook/logout.php">Logout</a>
@@ -100,10 +96,12 @@ if (isset($_POST['register_it'])) {
         </h5>
 
         <p>
+            <!-- displaying success or error message -->
             <?php
-                                                    if (isset($_GET['message'])) {
-                                                        echo $_GET['message'];
-                                                    }
+                if (isset($_GET['message'])) {
+
+                    echo $_GET['message'];
+                }
             ?>
         </p>
 
@@ -111,14 +109,15 @@ if (isset($_POST['register_it'])) {
             <h5>Sigup here</h5>
 
             <form action="index.php" method="POST">
-                <input type="text" placeholder="Enter Your name" name="name" required value="<?php if (isset($_SESSION['name'])) {
+                <input type="text" placeholder="Enter Your name" name="name" required value="<?php if (isset($_SESSION['name'])) {  //displaying old input that user entered before any error occured
                                                                                                     echo $_SESSION['name'];
                                                                                                 } ?>">
                 <br>
-                <input type="text" placeholder="Enter email" name="email" required>
-                <br>
 
-                <!-- <input type="file" name='profile_pic'> -->
+                <input type="text" placeholder="Enter email" name="email" required value="<?php if (isset($_SESSION['email'])) {
+                                                                                                    echo $_SESSION['email'];
+                                                                                                } ?>">
+                <br>
                 <input type="password" placeholder="Enter Password" name="password" required>
                 <br>
 
