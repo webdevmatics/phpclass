@@ -31,7 +31,7 @@
         <p>Your name is :
             <?php
             //checking if value is set before displaying it by use echo
-            
+
                 if (isset($_POST['name'])) {
                     
                     echo $_POST['name'];
@@ -46,17 +46,17 @@
 
     </div>
 
-    br
+    <br>
     <div>
         <h5>Sigup here</h5>
 
         <form action="index.php" method="POST">
             <input type="text" placeholder="Enter Your name" name="name" required>
             <br>
-            <input type="text" placeholder="Enter email" name="email" required>
+            <input type="text" placeholder="Enter email" name="email">
             <br>
 
-            <input type="password" placeholder="Enter Password" name="password" required>
+            <input type="password" placeholder="Enter Password" name="password">
             <br>
 
             <input type="submit" value="Register" name="register_it">
