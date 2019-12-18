@@ -30,7 +30,7 @@
         <!-- this will display data that you entered in form in name field -->
         <p>Your name is :
             <?php
-            //checking if value is set before displaying it by use echo
+            //checking if value is set before displaying it by using echo
 
                 if (isset($_POST['name'])) {
                     
