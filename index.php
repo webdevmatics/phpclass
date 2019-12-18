@@ -3,9 +3,20 @@ session_start();
 // echo "<pre>";
 // var_dump($connection);
 // echo "</pre>";
+const HOST = 'localhost';
+const USER = 'root';
+const DB_PASSWORD = '';
+const DATABASE_NAME = 'facebook';
 
 
-$connection = mysqli_connect('localhost', 'root', '', 'facebook');
+// exit;
+// echo "<pre>";
+// var_dump($multi['mydata']['love']);
+// echo "</pre>";
+// exit;
+// define(HOST, 'localhost'); //another way of defininig constant
+
+$connection = mysqli_connect(HOST, USER, DB_PASSWORD, DATABASE_NAME);
 
 if (mysqli_connect_errno()) {
     echo "there is some error while connecting to db";
@@ -17,13 +28,26 @@ $name = $email = $password = '';
 $errors = [];
 //checking if register button is clicked
 if (isset($_POST['register_it'])) {
+
     $name = $_POST['name'];
     $_SESSION['name'] = $name;
-    // $email = $_POST['email'];
+
+    $email = $_POST['email'];
+    $_SESSION['email'] = $email;
+
     $password = $_POST['password']; //secret
 
-    if(strlen($password) < 5 ) {
-        array_push($errors, "password should be more than 6");
+
+    if (strlen($password) < 5) {
+        header("Location: index.php?message=Password too short");
+        exit();
+        // array_push($errors, "password should be more than 6");
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        // array_push($errors, "please enter valid email");
+        header("Location: index.php?message=invalide email");
+        exit();
     }
 
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -77,9 +101,9 @@ if (isset($_POST['register_it'])) {
 
         <p>
             <?php
-                if (isset($_GET['message'])) {
-                    echo $_GET['message'];
-                }
+                                                    if (isset($_GET['message'])) {
+                                                        echo $_GET['message'];
+                                                    }
             ?>
         </p>
 
@@ -87,14 +111,14 @@ if (isset($_POST['register_it'])) {
             <h5>Sigup here</h5>
 
             <form action="index.php" method="POST">
-                <input type="text" placeholder="Enter Your name"
-                 name="name" 
-                 required 
-                value="<?php if(isset($_SESSION['name'])) {  echo $_SESSION['name'];  }?>"
-                >
+                <input type="text" placeholder="Enter Your name" name="name" required value="<?php if (isset($_SESSION['name'])) {
+                                                                                                    echo $_SESSION['name'];
+                                                                                                } ?>">
                 <br>
-                <input type="email" placeholder="Enter email" name="email" required>
+                <input type="text" placeholder="Enter email" name="email" required>
                 <br>
+
+                <!-- <input type="file" name='profile_pic'> -->
                 <input type="password" placeholder="Enter Password" name="password" required>
                 <br>
 
