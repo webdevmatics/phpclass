@@ -23,16 +23,13 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {  // checking if email entered by user is valid
         $errors['email'] = "invalid email";
-        
-    }
-    
-    // else {    // email already exist check
-    //     $existingEmailCheck = mysqli_query($connection, "SELECT email from users where email = '$email'");
+    }else {    // email already exist check
+         $existingEmailCheck = mysqli_query($connection, "SELECT email from users where email = '$email'");
 
-    //     if(mysqli_num_rows($existingEmailCheck) > 0) {
-    //         $errors['existing_email'] = "Email Already Exists. Please enter another email"; 
-    //     }
-    // }
+         if(mysqli_num_rows($existingEmailCheck) > 0) {
+             $errors['existing_email'] = "Email Already Exists. Please enter another email";
+         }
+     }
    
 
     //Password
@@ -41,11 +38,18 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
     if (strlen($password) < 5) {       //checking if password in less than 5 character
         $errors['password'] = "password too short";
     }
+
+    $passwordConfirmation = $_POST['confirm_password']; //getting confirm password input field data
+
+    if($password !== $passwordConfirmation){
+        $errors['confirm_password']= "The password confirmation does not match.";
+    }
+
     $password = password_hash($password, PASSWORD_DEFAULT); //encrpting password to make is secure
 
 
     if (count($errors) == 0) {
-   
+
 
         $insertQuery = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";  // SQL query to insert name email and password into database
 
@@ -115,7 +119,7 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
             <div class="validation-errors">
                 <ul>
                     <!-- displaying validation errors by looping through errors array -->
-                    <?php foreach ($errors as $key => $error) : ?>
+                    <?php foreach ($errors as $key => $error): ?>
                         <li style="color:red;"><?php echo $error; ?></li>
                     <?php endforeach; ?>
 
@@ -134,7 +138,7 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
                 <br>
                 <input type="password" placeholder="Enter Password" name="password" required>
                 <br>
-
+                <input type="password" placeholder="Confirm Password" name="confirm_password" required><br>
                 <input type="submit" value="Register" name="register_it">
 
 
