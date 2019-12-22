@@ -1,4 +1,5 @@
 <?php
+session_start(); //starting session
 
 $connection = mysqli_connect('localhost', 'root', '', 'facebook'); //making connection with database
 

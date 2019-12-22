@@ -35,9 +35,8 @@ if (isset($_POST['login_it'])) { //checking if register button is clicked
                 $errors['incorrect_detail'] = "Email or password incorrect";
 
             }else {
-                header("Location: index.php?login_success");
-
                 $_SESSION['auth_user'] = $user['name'];
+                header("Location: index.php?login_success");
 
                 exit();
             }
