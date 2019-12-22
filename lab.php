@@ -6,7 +6,7 @@ $var2 = '5';
 
 if($var1 == $var2 && $lw == 233){
     echo "both are equal";
-}else{
+} else{
     echo "oops they are different";
 }
 
