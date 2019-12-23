@@ -17,6 +17,10 @@
             padding: 5px;
             text-align: center;
         }
+
+        .container{
+            margin: 0 20px;
+        }
     </style>
 </head>
 
