@@ -5,22 +5,29 @@
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias accusamus exercitationem pariatur in repellendus quis cumque nulla voluptatem maiores odit vitae eaque asperiores, iusto deserunt omnis. Eaque enim nihil accusantium?</p>
 
 
-        <h2> List of registered users on Facebook</h2>
+        <h2>Displaying data of users in table</h2>
+
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
 
 
-        <?php foreach ($users as $user) : ?>
 
-            <li>
-                <small>
-                    <?php echo $user['name'] ?>
+            <?php while($u = mysqli_fetch_assoc($userQueryResult)): ?>
 
-                </small>
+                <tr>
+                    <td><?php echo $u['name'] ?></td>
+                    <td><?php echo $u['email'] ?></td>
+                </tr>
 
-                <em><?php echo $user['email'] ?></em>
 
-            </li>
+            <?php endwhile; ?>
+            
 
-        <?php endforeach; ?>
+
+        </table>
 
 
     </div>

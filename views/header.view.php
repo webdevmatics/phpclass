@@ -18,8 +18,15 @@
             text-align: center;
         }
 
-        .container{
+        .container {
             margin: 0 20px;
+        }
+
+        table,
+        th,
+        td,
+        tr {
+            border: 1px solid red;
         }
     </style>
 </head>
