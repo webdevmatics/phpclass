@@ -36,6 +36,8 @@ if (isset($_POST['login_it'])) { //checking if register button is clicked
 
             }else {
                 $_SESSION['auth_user'] = $user['name'];
+                $_SESSION['auth_id'] = $user['id'];  //saving user id 
+                
                 header("Location: index.php?login_success");
 
                 exit();

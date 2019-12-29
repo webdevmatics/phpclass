@@ -49,14 +49,11 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
 
         $result = mysqli_query($connection, $insertQuery); // executing query , this will save user data to database
 
-        $_SESSION['auth_user'] = $name;  //saving name of user in session so that we can display it in page
-
         //Resetting
         $_SESSION['name'] = '';  //resetting session
         $_SESSION['email'] = '';  //resetting session
 
-
-        header("Location: index.php?message=register_successfully"); // after register success taking user to main page and displaying success message
+        header("Location: login.php?message=register_successfully"); // after register success taking user to main page and displaying success message
         exit();
     }
 }

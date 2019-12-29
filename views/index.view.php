@@ -1,36 +1,35 @@
     <?php include "header.view.php"; ?>
 
-    <div class="container">
-        <p>this is index</p>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Alias accusamus exercitationem pariatur in repellendus quis cumque nulla voluptatem maiores odit vitae eaque asperiores, iusto deserunt omnis. Eaque enim nihil accusantium?</p>
+   <div>
+
+        <h2>Create Post</h2>
+
+        <form action="/facebook/index.php" method="POST">
+
+            <input type="text" placeholder="Whats on your mind?" name="body">
+
+            <input type="submit" value="Post Status" name="post_it">
 
 
-        <h2>Displaying data of users in table</h2>
-
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-            </tr>
+        </form>
 
 
+   </div>
 
-            <?php while($u = mysqli_fetch_assoc($userQueryResult)): ?>
+   <br>
+   <div>
 
-                <tr>
-                    <td><?php echo $u['name'] ?></td>
-                    <td><?php echo $u['email'] ?></td>
-                </tr>
+    <h3>My posts</h3>
 
+        <?php while($postData = mysqli_fetch_assoc($posts)) : ?>
 
-            <?php endwhile; ?>
-            
+            <div>
+                <?php echo $postData['body']; ?>
+            </div>
 
+        <?php endwhile ?>
 
-        </table>
-
-
-    </div>
+   </div>
 
 
 
