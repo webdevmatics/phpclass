@@ -53,7 +53,7 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
         $_SESSION['name'] = '';  //resetting session
         $_SESSION['email'] = '';  //resetting session
 
-        header("Location: login.php?message=register_successfully"); // after register success taking user to main page and displaying success message
-        exit();
+        redirectTo('login.php');
+
     }
 }
