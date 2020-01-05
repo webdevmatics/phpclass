@@ -26,23 +26,27 @@
                     <ul>
                         <!-- displaying validation errors by looping through errors array -->
                         <?php foreach ($errors as $key => $error) : ?>
-                            <li style="color:red;"><?php echo $error; ?></li>
+
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Oops!</strong> <?php echo $error; ?>
+                            </div>
                         <?php endforeach; ?>
 
                     </ul>
                 </div>
 
-                <form action="/facebook/login.php" method="POST">
+                <form action="/facebook/login.php" method="POST" class=>
 
                     <br>
 
-                    <input type="text" placeholder="Enter email" name="email" required value="<?php if (isset($_SESSION['email'])) {
-                                                                                                    echo $_SESSION['email'];
-                                                                                                } ?>">
+                    <input class="form-control" type="text" placeholder="Enter email" name="email" required value="<?php if (isset($_SESSION['email'])) {
+                                                                                                                        echo $_SESSION['email'];
+                                                                                                                    } ?>">
                     <br>
-                    <input type="password" placeholder="Enter Password" name="password" required>
+                    <input class="form-control" type="password" placeholder="Enter Password" name="password" required>
                     <br>
-                    <input type="submit" value="Login" name="login_it">
+                    <input class="btn btn-success" type="submit" value="Login" name="login_it">
 
 
                 </form>
@@ -50,6 +54,8 @@
             </div>
 
     </div>
-            </body>
 
-            </html>
+
+    </body>
+
+    </html>
