@@ -54,7 +54,7 @@ if (isset($_POST['register_it'])) { //checking if register button is clicked
         $_SESSION['email'] = '';  //resetting session
 
 
-        redirectTo('login.php');
+        redirectTo('login.php?message=Registered Successfully! Please Login to continue.');
 
     }
 }

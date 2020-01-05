@@ -1,7 +1,6 @@
     <?php include "header.view.php"; ?>
 
-    <div class="container w-50 mx-auto">
-
+    <div class="container w-50 mx-auto mt-3">
 
         <?php if (isset($_SESSION['auth_user'])) : ?>
             <!-- checking if session is set and displaying logged in users name  -->
@@ -10,48 +9,41 @@
             <?php endif; ?>
 
             </h5>
-            <p>
-                <!-- displaying success or error message -->
-                <?php
-                if (isset($_GET['message'])) {
+            <!-- displaying success or error message -->
 
-                    echo $_GET['message'];
-                }
-                ?>
-            </p>
 
             <div>
                 <h5>Sigup here</h5>
 
                 <div class="validation-errors">
-                    <ul>
-                        <!-- displaying validation errors by looping through errors array -->
-                        <?php foreach ($errors as $key => $error) : ?>
-                            <li style="color:red;"><?php echo $error; ?></li>
-                        <?php endforeach; ?>
+                    <?php foreach ($errors as $key => $error) : ?>
 
-                    </ul>
+                        <div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Oops!</strong> <?php echo $error; ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
 
                 <form action="register.php" method="POST">
-                    <input type="text" placeholder="Enter Your name" name="name" value="<?php if (isset($_SESSION['name'])) {  //displaying old input that user entered before any error occured
-                                                                                            echo $_SESSION['name'];
-                                                                                        } ?>">
+                    <input class="form-control" type="text" placeholder="Enter Your name" name="name" value="<?php if (isset($_SESSION['name'])) {  //displaying old input that user entered before any error occured
+                                                                                                                    echo $_SESSION['name'];
+                                                                                                                } ?>">
                     <br>
 
-                    <input type="text" placeholder="Enter email" name="email" required value="<?php if (isset($_SESSION['email'])) {
-                                                                                                    echo $_SESSION['email'];
-                                                                                                } ?>">
+                    <input class="form-control" type="text" placeholder="Enter email" name="email" required value="<?php if (isset($_SESSION['email'])) {
+                                                                                                                        echo $_SESSION['email'];
+                                                                                                                    } ?>">
                     <br>
-                    <input type="password" placeholder="Enter Password" name="password" required>
+                    <input class="form-control" type="password" placeholder="Enter Password" name="password" required>
                     <br>
-                    <input type="password" placeholder="Confirm Password" name="confirm_password" required><br>
-                    <input type="submit" value="Register" name="register_it">
+                    <input class="form-control" type="password" placeholder="Confirm Password" name="confirm_password" required><br>
+                    <input class="btn btn-primary" type="submit" value="Register" name="register_it">
 
 
                 </form>
 
-                <p> Already have account? <a href="/facebook/login.php">Login here</a></p>
+                <p class="mt-3"> Already have account? <a href="/facebook/login.php">Login here</a></p>
 
             </div>
 
