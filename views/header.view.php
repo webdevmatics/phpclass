@@ -63,3 +63,11 @@
         </div>
 
     <?php endif ?>
+
+    <?php if (isset($_GET['error'])) : ?>
+
+        <div class="alert alert-danger text-center">
+            <strong>Crap!</strong> <?php echo $_GET['error']; ?>
+        </div>
+
+    <?php endif ?>

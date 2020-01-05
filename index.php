@@ -7,19 +7,42 @@ require './classes/Post.php';
 $postObject = new Post($connection);
 
 //checking if user is logged in 
-if(!isset($_SESSION['auth_user'])) {
+if (!isset($_SESSION['auth_user'])) {
     //redirect user to login page
     redirectTo('login.php');
-
 }
 
 $userId = $_SESSION['auth_id'];
 
+//Delete handler
+
+if(!empty($_GET['delete_post'])) {
+    $postIdToDelete =(integer) $_GET['delete_post'];
+
+    if($postObject->delete($postIdToDelete)){
+        redirectTo('index.php?message=Post Deleted');
+
+    }else {
+        redirectTo('index.php?error=Problem Deleting');
+    }
+
+
+}
+
 // form submisssion handler
-if(isset($_POST['post_it'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $body = $_POST['body'];
-    
-    $postObject->create(['body'=> $body, 'user_id'=> $userId]);
+
+    $postId = $_POST['post_id'];
+
+
+    //if post Id is not empty that means we are updating otherwise creating new record
+    if (!empty($postId)) {
+        $postObject->update((integer)$postId, ['body' => $body]);
+    } else {
+        $postObject->create(['body' => $body, 'user_id' => $userId]);
+    }
 
     redirectTo('index.php');
 }
@@ -27,7 +50,4 @@ if(isset($_POST['post_it'])) {
 // fetching all posts
 $posts = $postObject->all($userId);
 
-include './views/index.view.php'
-
-?>
-
+include './views/index.view.php';

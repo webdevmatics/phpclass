@@ -57,7 +57,7 @@ class Post
 
     public function delete($postId)
     {
-        mysqli_query($this->connection, "DELETE posts where id=$postId");
+        mysqli_query($this->connection, "DELETE FROM posts where id=$postId");
 
         $rowsAffected = mysqli_affected_rows($this->connection);
 
