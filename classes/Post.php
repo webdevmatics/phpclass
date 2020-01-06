@@ -11,7 +11,7 @@ class Post
 
     public function all($userId)
     {
-        $posts = mysqli_query($this->connection, "SELECT * from posts WHERE user_id='$userId' ORDER BY id desc");
+        $posts = mysqli_query($this->connection, "SELECT * from posts WHERE user_id=$userId ORDER BY id desc");
 
         return $posts;
 
@@ -29,11 +29,13 @@ class Post
         $body = $dataToSave['body'];
         $userId = $dataToSave['user_id'];
 
+
         mysqli_query($this->connection, "INSERT INTO posts(body,user_id) values('$body',$userId)");
 
          $rowsAffected = mysqli_affected_rows($this->connection);
 
          if($rowsAffected > 0) {
+
              return true;
          }
         
@@ -50,9 +52,10 @@ class Post
 
         if ($rowsAffected > 0) {
             return true;
+        }else {
+            return false;
         }
 
-        return false;
     }
 
     public function delete($postId)

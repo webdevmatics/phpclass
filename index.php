@@ -19,6 +19,17 @@ $userId = $_SESSION['auth_id'];
 if(!empty($_GET['delete_post'])) {
     $postIdToDelete =(integer) $_GET['delete_post'];
 
+    $postToDelete = $postObject->find($postIdToDelete);
+
+
+    //authorization check
+
+    if($postToDelete['user_id'] != $userId) {
+
+        redirectTo('index.php?error=Sorry your are not authorized!');
+    }
+
+
     if($postObject->delete($postIdToDelete)){
         redirectTo('index.php?message=Post Deleted');
 
@@ -39,7 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //if post Id is not empty that means we are updating otherwise creating new record
     if (!empty($postId)) {
-        $postObject->update((integer)$postId, ['body' => $body]);
+
+        //todo put authorization
+
+        $isUpdated = $postObject->update((integer)$postId, ['body' => $body]);
+
+        if($isUpdated) {
+
+            redirectTo('index.php?message=update success');
+
+        }else{
+            redirectTo('index.php?message=failed to update');
+        }
+
     } else {
         $postObject->create(['body' => $body, 'user_id' => $userId]);
     }
